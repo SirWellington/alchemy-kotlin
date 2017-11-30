@@ -22,13 +22,18 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 import tech.sirwellington.alchemy.generator.CollectionGenerators
 import tech.sirwellington.alchemy.generator.NumberGenerators
 import tech.sirwellington.alchemy.generator.StringGenerators
 import tech.sirwellington.alchemy.generator.one
 import tech.sirwellington.alchemy.test.hamcrest.isNull
 import tech.sirwellington.alchemy.test.hamcrest.notNull
+import tech.sirwellington.alchemy.test.junit.runners.AlchemyTestRunner
+import tech.sirwellington.alchemy.test.junit.runners.Repeat
 
+@RunWith(AlchemyTestRunner::class)
+@Repeat
 class ArraysPlusKtTest
 {
 
