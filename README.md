@@ -1,2 +1,2 @@
-# alchemy-kotlin
+# Alchemy Kotlin
 Alchemy Kotlin Magic
