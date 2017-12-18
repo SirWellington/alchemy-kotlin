@@ -18,8 +18,6 @@ package tech.sirwellington.alchemy.kotlin.extensions
 
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -31,6 +29,8 @@ import tech.sirwellington.alchemy.generator.StringGenerators.Companion.strings
 import tech.sirwellington.alchemy.generator.one
 import tech.sirwellington.alchemy.test.junit.runners.AlchemyTestRunner
 import tech.sirwellington.alchemy.test.junit.runners.Repeat
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 @RunWith(AlchemyTestRunner::class)
 @Repeat
@@ -54,7 +54,7 @@ class ListsPlusKtTest
         val negativeIndex = one(negativeIntegers())
         val outOfBoundsIndex = one(integers(list.size, Int.MAX_VALUE))
 
-        assertFalse(list.isValidIndex(negativeIndex))
+        assertFalse { list.isValidIndex(negativeIndex) }
         assertFalse(list.isValidIndex(outOfBoundsIndex))
     }
 
@@ -104,5 +104,14 @@ class ListsPlusKtTest
         val expected = mutableListOf(newElement)
 
         assertThat(emptyList, equalTo(expected))
+    }
+
+    @Test
+    fun testDoesNotContain()
+    {
+        assertTrue { list.doesNotContain(newElement) }
+
+        val existingElement = list.anyElement!!
+        assertFalse { list.doesNotContain(existingElement) }
     }
 }
