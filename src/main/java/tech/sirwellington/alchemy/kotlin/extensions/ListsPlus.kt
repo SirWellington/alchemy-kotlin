@@ -91,7 +91,7 @@ val <T> List<T>?.anyElement: T?
 fun <T> MutableCollection<T>.removeElementIf(predicate: (T) -> (Boolean)): Boolean
 {
     val elementsToRemove = this.filter(predicate).toList()
-    this.removeAll(elementsToRemove)
+    return this.removeAll(elementsToRemove)
 }
 
 /**
