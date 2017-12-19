@@ -85,8 +85,10 @@ val <T> List<T>?.anyElement: T?
 
 /**
  * Removes all elements from the collection that match the given predicate.
+ *
+ * @return `true` if any elements were removed, `false` if none were found to match the predicate.
  */
-fun <T> MutableCollection<T>.removeElementIf(predicate: (T) -> (Boolean))
+fun <T> MutableCollection<T>.removeElementIf(predicate: (T) -> (Boolean)): Boolean
 {
     val elementsToRemove = this.filter(predicate).toList()
     this.removeAll(elementsToRemove)

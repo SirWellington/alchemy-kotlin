@@ -114,4 +114,27 @@ class ListsPlusKtTest
         val existingElement = list.anyElement!!
         assertFalse { list.doesNotContain(existingElement) }
     }
+
+    @Test
+    fun testRemoveElementIfWhenContainsElement()
+    {
+        val element = list.anyElement!!
+        val mutable = list.toMutableList()
+
+        val result = mutable.removeIf { it == element }
+        assertTrue { result }
+        assertFalse { mutable.contains(element) }
+
+    }
+
+    @Test
+    fun testRemoveElementIfWhenDoesNotContainElement()
+    {
+        val mutable = list.toMutableList()
+
+        val result = mutable.removeIf { it == newElement }
+        assertFalse { result }
+        assertFalse { mutable.contains(newElement) }
+    }
+    
 }
