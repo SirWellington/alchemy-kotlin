@@ -103,6 +103,14 @@ inline fun <reified T> MutableList<T>.addToFront(element: T)
 }
 
 /**
+ * Simple alias for [addToFront].
+ */
+inline fun <reified T> MutableList<T>.prepend(element: T)
+{
+    addToFront(element)
+}
+
+/**
  * @return `true` if [element] is not present in this List, `false` otherwise.
  */
 inline fun <reified T> List<T>.doesNotContain(element: T): Boolean = !contains(element)

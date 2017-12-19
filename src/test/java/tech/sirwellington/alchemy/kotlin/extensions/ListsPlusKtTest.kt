@@ -107,6 +107,28 @@ class ListsPlusKtTest
     }
 
     @Test
+    fun testPrepend()
+    {
+        val mutable = list.toMutableList()
+        mutable.prepend(newElement)
+
+        val expected = listOf(newElement) + list
+
+        assertThat(mutable, equalTo(expected))
+    }
+
+    @Test
+    fun testPrependWhenListEmpty()
+    {
+        val mutable = mutableListOf<String>()
+        mutable.prepend(newElement)
+
+        val expected = mutableListOf(newElement)
+
+        assertThat(mutable, equalTo(expected))
+    }
+
+    @Test
     fun testDoesNotContain()
     {
         assertTrue { list.doesNotContain(newElement) }
@@ -136,5 +158,5 @@ class ListsPlusKtTest
         assertFalse { result }
         assertFalse { mutable.contains(newElement) }
     }
-    
+
 }
