@@ -59,7 +59,7 @@ class ReferencesPlusTest
         System.gc()
 
         assertTrue(weakReference.notNull)
-        assertTrue(weakReference.isNull)
+        assertTrue(weakReference.get().isNull)
 
     }
 
