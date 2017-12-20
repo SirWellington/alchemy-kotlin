@@ -27,8 +27,6 @@ import tech.sirwellington.alchemy.generator.CollectionGenerators
 import tech.sirwellington.alchemy.generator.NumberGenerators
 import tech.sirwellington.alchemy.generator.StringGenerators
 import tech.sirwellington.alchemy.generator.one
-import tech.sirwellington.alchemy.test.hamcrest.isNull
-import tech.sirwellington.alchemy.test.hamcrest.notNull
 import tech.sirwellington.alchemy.test.junit.runners.AlchemyTestRunner
 import tech.sirwellington.alchemy.test.junit.runners.Repeat
 
@@ -86,7 +84,7 @@ class ArraysPlusKtTest
     {
         val element = array.anyElement
 
-        assertThat(element, notNull)
+        assertTrue(element.notNull)
         assertThat(element!!, isIn(array.toList()))
     }
 
@@ -95,7 +93,7 @@ class ArraysPlusKtTest
     {
         val emptyList = listOf<String>()
         val element = emptyList.anyElement
-        assertThat(element, isNull)
+        assertTrue(element.isNull)
     }
 
 }

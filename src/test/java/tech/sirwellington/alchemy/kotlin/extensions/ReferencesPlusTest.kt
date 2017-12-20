@@ -26,8 +26,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import tech.sirwellington.alchemy.generator.StringGenerators
 import tech.sirwellington.alchemy.generator.one
-import tech.sirwellington.alchemy.test.hamcrest.isNull
-import tech.sirwellington.alchemy.test.hamcrest.notNull
 import tech.sirwellington.alchemy.test.junit.runners.AlchemyTestRunner
 
 @RunWith(AlchemyTestRunner::class)
@@ -47,8 +45,8 @@ class ReferencesPlusTest
     {
         val weakReference = originalReference.asWeak()
 
-        assertThat(weakReference, notNull)
-        assertThat(weakReference.get(), notNull)
+        assertTrue(weakReference.notNull)
+        assertTrue(weakReference.get().notNull)
         assertThat(weakReference.get(), equalTo(originalReference))
     }
 
@@ -60,8 +58,8 @@ class ReferencesPlusTest
 
         System.gc()
 
-        assertThat(weakReference, notNull)
-        assertThat(weakReference.get(), isNull)
+        assertTrue(weakReference.notNull)
+        assertTrue(weakReference.isNull)
 
     }
 
@@ -99,6 +97,27 @@ class ReferencesPlusTest
         list.add(secondRef)
 
         assertThat(list.size, equalTo(2))
+    }
+
+
+    @Test
+    fun testIsNull()
+    {
+        val nullRef: Any? = null
+        assertTrue(nullRef.isNull)
+
+        val nonNullRef = originalReference
+        assertFalse(nonNullRef.isNull)
+    }
+
+    @Test
+    fun testNotNull()
+    {
+        val nonNullRef = originalReference
+        assertTrue(nonNullRef.notNull)
+
+        val nullRef: String? = null
+        assertFalse(nullRef.notNull)
     }
 
 }

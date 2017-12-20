@@ -83,3 +83,13 @@ fun <T> List<WeakReference<T>>.alreadyContainsWeakRef(weakReference: WeakReferen
 
     return false
 }
+
+/**
+ * @return `true` if `this == null`, `false` otherwise.
+ */
+val Any?.isNull: Boolean get() = this == null
+
+/**
+ * @return `true` if `this != null`, `false` otherwise.
+ */
+val Any?.notNull: Boolean get() = this != null
