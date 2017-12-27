@@ -114,3 +114,16 @@ inline fun <reified T> MutableList<T>.prepend(element: T)
  * @return `true` if [element] is not present in this List, `false` otherwise.
  */
 inline fun <reified T> List<T>.doesNotContain(element: T): Boolean = !contains(element)
+
+/**
+ * An alias for [any] that returns true if any of the elements in this collection
+ * match the [predicate].
+ *
+ * @param predicate Ran on elements in the list to test whether the condition is met or not.
+ *
+ * @return `true` If this collection contains an element matching the [predicate], `false` otherwise.
+ */
+inline fun <reified T> Collection<T>.containsWhere(predicate: (T) -> Boolean): Boolean
+{
+    return this.any(predicate)
+}

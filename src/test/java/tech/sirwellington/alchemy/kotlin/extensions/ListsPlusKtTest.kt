@@ -48,6 +48,7 @@ class ListsPlusKtTest
         newElement = StringGenerators.strings().get()
     }
 
+    @Repeat(5_000)
     @Test
     fun testIsValidIndexWhenInvalid()
     {
@@ -157,6 +158,21 @@ class ListsPlusKtTest
         val result = mutable.removeIf { it == newElement }
         assertFalse { result }
         assertFalse { mutable.contains(newElement) }
+    }
+
+    @Test
+    fun testContainsWhere()
+    {
+        val element = list.anyElement!!
+        val result = list.containsWhere { it == element }
+        assertTrue { result }
+    }
+
+    @Test
+    fun testContainsWhereWhenNotContains()
+    {
+        val result = list.containsWhere { it == null }
+        assertFalse { result }
     }
 
 }
