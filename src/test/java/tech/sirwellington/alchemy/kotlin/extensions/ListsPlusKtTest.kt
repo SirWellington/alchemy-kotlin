@@ -24,10 +24,10 @@ import org.junit.runner.RunWith
 import tech.sirwellington.alchemy.generator.CollectionGenerators.Companion.listOf
 import tech.sirwellington.alchemy.generator.NumberGenerators.Companion.integers
 import tech.sirwellington.alchemy.generator.NumberGenerators.Companion.negativeIntegers
-import tech.sirwellington.alchemy.generator.StringGenerators
 import tech.sirwellington.alchemy.generator.StringGenerators.Companion.strings
 import tech.sirwellington.alchemy.generator.one
 import tech.sirwellington.alchemy.test.junit.runners.AlchemyTestRunner
+import tech.sirwellington.alchemy.test.junit.runners.GenerateString
 import tech.sirwellington.alchemy.test.junit.runners.Repeat
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -39,13 +39,20 @@ class ListsPlusKtTest
 
     private lateinit var list: List<String>
 
+    private lateinit var mutable: MutableList<String>
+
+    private lateinit var element: String
+
+    @GenerateString
     private lateinit var newElement: String
+
 
     @Before
     fun setup()
     {
         list = listOf(strings())
-        newElement = StringGenerators.strings().get()
+        mutable = list.toMutableList()
+        element = list.anyElement!!
     }
 
     @Repeat(5_000)
@@ -88,12 +95,11 @@ class ListsPlusKtTest
     @Test
     fun testAddToFront()
     {
-        val mutableList = list.toMutableList()
-        mutableList.addToFront(newElement)
+        mutable.addToFront(newElement)
 
         val expected = listOf(newElement) + list
 
-        assertThat(mutableList, equalTo(expected))
+        assertThat(mutable, equalTo(expected))
     }
 
     @Test
@@ -110,7 +116,6 @@ class ListsPlusKtTest
     @Test
     fun testPrepend()
     {
-        val mutable = list.toMutableList()
         mutable.prepend(newElement)
 
         val expected = listOf(newElement) + list
@@ -134,16 +139,12 @@ class ListsPlusKtTest
     {
         assertTrue { list.doesNotContain(newElement) }
 
-        val existingElement = list.anyElement!!
-        assertFalse { list.doesNotContain(existingElement) }
+        assertFalse { list.doesNotContain(element) }
     }
 
     @Test
     fun testRemoveElementIfWhenContainsElement()
     {
-        val element = list.anyElement!!
-        val mutable = list.toMutableList()
-
         val result = mutable.removeIf { it == element }
         assertTrue { result }
         assertFalse { mutable.contains(element) }
@@ -153,8 +154,6 @@ class ListsPlusKtTest
     @Test
     fun testRemoveElementIfWhenDoesNotContainElement()
     {
-        val mutable = list.toMutableList()
-
         val result = mutable.removeIf { it == newElement }
         assertFalse { result }
         assertFalse { mutable.contains(newElement) }
@@ -163,7 +162,6 @@ class ListsPlusKtTest
     @Test
     fun testContainsWhere()
     {
-        val element = list.anyElement!!
         val result = list.containsWhere { it == element }
         assertTrue { result }
     }
@@ -172,6 +170,20 @@ class ListsPlusKtTest
     fun testContainsWhereWhenNotContains()
     {
         val result = list.containsWhere { it == null }
+        assertFalse { result }
+    }
+
+    @Test
+    fun testRemoveWhere()
+    {
+        val result = mutable.removeWhere { it == element }
+        assertTrue { result }
+    }
+
+    @Test
+    fun testRemoveWhereWhenNotContains()
+    {
+        val result = mutable.removeWhere { it == newElement }
         assertFalse { result }
     }
 

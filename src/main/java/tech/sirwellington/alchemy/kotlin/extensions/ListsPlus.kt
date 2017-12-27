@@ -88,7 +88,7 @@ val <T> List<T>?.anyElement: T?
  *
  * @return `true` if any elements were removed, `false` if none were found to match the predicate.
  */
-fun <T> MutableCollection<T>.removeElementIf(predicate: (T) -> (Boolean)): Boolean
+inline fun <reified T> MutableCollection<T>.removeElementIf(predicate: (T) -> (Boolean)): Boolean
 {
     val elementsToRemove = this.filter(predicate).toList()
     return this.removeAll(elementsToRemove)
@@ -126,4 +126,14 @@ inline fun <reified T> List<T>.doesNotContain(element: T): Boolean = !contains(e
 inline fun <reified T> Collection<T>.containsWhere(predicate: (T) -> Boolean): Boolean
 {
     return this.any(predicate)
+}
+
+/**
+ * Simple alias for [removeElementIf].
+ *
+ * @see removeElementIf
+ */
+inline fun <reified T> MutableCollection<T>.removeWhere(predicate: (T) -> Boolean): Boolean
+{
+    return this.removeElementIf(predicate)
 }
