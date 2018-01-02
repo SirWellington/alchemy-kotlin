@@ -46,6 +46,8 @@ class ThrowablesPlusKtTest
         val result = tryOrNull {
             if (!string.isEmpty)
                 throw RuntimeException("failed")
+            else
+                string
         }
 
         assertTrue { result.isNull }
