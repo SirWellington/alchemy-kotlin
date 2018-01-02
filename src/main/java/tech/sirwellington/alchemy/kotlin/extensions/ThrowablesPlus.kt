@@ -35,6 +35,14 @@ inline fun <T> tryOrNull(block: () -> (T)): T?
     }
 }
 
+/**
+ * A more fine-grained version of [tryOrNull] that allows you to specify
+ * a specific exception type that should be caught and treated as expected.
+ *
+ * If any other exception type is thrown, then it rethrown.
+ *
+ * > NOTE: Polymorphism applies.
+ */
 inline fun <T, reified E : Throwable> tryOrNull(exceptionType: Class<E> = E::class.java, block: () -> T): T?
 {
     return try
