@@ -20,9 +20,11 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 import org.junit.runner.RunWith
+import tech.sirwellington.alchemy.test.junit.ThrowableAssertion
 import tech.sirwellington.alchemy.test.junit.runners.AlchemyTestRunner
 import tech.sirwellington.alchemy.test.junit.runners.GenerateString
 import tech.sirwellington.alchemy.test.junit.runners.Repeat
+import java.sql.SQLException
 import kotlin.test.assertTrue
 
 @RunWith(AlchemyTestRunner::class)
@@ -52,4 +54,42 @@ class ThrowablesPlusKtTest
 
         assertTrue { result.isNull }
     }
+
+    @Test
+    fun testTryOrNullWithSpecificException()
+    {
+        val result = tryOrNull(CustomException::class.java) {
+            string
+        }
+
+        assertThat(result, equalTo(string))
+    }
+
+    @Test
+    fun testTryOrNullWithSpecificExceptionWhenExceptionThrown()
+    {
+
+        val result = tryOrNull(CustomException::class.java) {
+            if (string.notNull)
+                throw CustomException()
+            else
+                string
+        }
+
+        assertTrue { result.isNull }
+
+        ThrowableAssertion.assertThrows {
+
+            tryOrNull(CustomException::class.java) {
+
+                if (string.notNull)
+                    throw SQLException("")
+                else
+                    string
+            }
+        }.isInstanceOf(SQLException::class.java)
+    }
+
+
+    class CustomException : RuntimeException()
 }

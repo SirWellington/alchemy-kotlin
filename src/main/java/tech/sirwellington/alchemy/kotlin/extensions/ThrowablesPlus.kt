@@ -34,3 +34,22 @@ inline fun <T> tryOrNull(block: () -> (T)): T?
         null
     }
 }
+
+inline fun <T, reified E : Throwable> tryOrNull(exceptionType: Class<E> = E::class.java, block: () -> T): T?
+{
+    return try
+    {
+        block()
+    }
+    catch (ex: Throwable)
+    {
+        if (ex is E)
+        {
+            null
+        }
+        else
+        {
+            throw ex
+        }
+    }
+}
