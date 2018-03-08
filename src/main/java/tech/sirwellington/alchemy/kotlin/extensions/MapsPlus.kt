@@ -46,7 +46,7 @@ inline fun <reified K, reified V> MutableMap<K, V>.removeWhere(predicate: (Map.E
 val <K,V> Map<K, V>.anyEntry: Map.Entry<K, V>?
     get()
     {
-        val entryList = this.entries.toList()
+        val entryList = entries.toList()
         return entryList.anyElement
     }
 
