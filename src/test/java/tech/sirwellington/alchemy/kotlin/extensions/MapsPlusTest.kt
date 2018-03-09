@@ -18,6 +18,7 @@ package tech.sirwellington.alchemy.kotlin.extensions
 
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
+import com.natpryce.hamkrest.isIn
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -84,5 +85,18 @@ class MapsPlusTest
 
         assertThat(map.size, equalTo(sizeBefore))
         assertThat(map, equalTo(original))
+    }
+
+    @Test
+    fun testAnyEntry()
+    {
+        val entry = map.anyEntry!!
+
+        val emptyMap = mutableMapOf<String, String>()
+        val emptyMapEntry = emptyMap.anyEntry
+
+        assertTrue(map.containsKey(entry.key))
+        assertTrue(map.containsValue(entry.value))
+        assertTrue(emptyMapEntry.isNull)
     }
 }
