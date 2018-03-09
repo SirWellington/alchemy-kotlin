@@ -92,11 +92,16 @@ class MapsPlusTest
     {
         val entry = map.anyEntry!!
 
+        assertTrue(map.containsKey(entry.key))
+        assertTrue(map.containsValue(entry.value))
+    }
+
+    @Test
+    fun testAnyEntryWhenMapIsEmpty()
+    {
         val emptyMap = mutableMapOf<String, String>()
         val emptyMapEntry = emptyMap.anyEntry
 
-        assertTrue(map.containsKey(entry.key))
-        assertTrue(map.containsValue(entry.value))
         assertTrue(emptyMapEntry.isNull)
     }
 }
