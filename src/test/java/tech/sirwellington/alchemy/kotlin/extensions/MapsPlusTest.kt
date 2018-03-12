@@ -93,6 +93,7 @@ class MapsPlusTest
 
         assertTrue(map.containsKey(entry.key))
         assertTrue(map.containsValue(entry.value))
+        assertTrue(map.entries.contains(entry))
     }
 
     @Test
