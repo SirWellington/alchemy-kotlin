@@ -85,4 +85,23 @@ class MapsPlusTest
         assertThat(map.size, equalTo(sizeBefore))
         assertThat(map, equalTo(original))
     }
+
+    @Test
+    fun testAnyEntry()
+    {
+        val entry = map.anyEntry!!
+
+        assertTrue(map.containsKey(entry.key))
+        assertTrue(map.containsValue(entry.value))
+        assertTrue(map.entries.contains(entry))
+    }
+
+    @Test
+    fun testAnyEntryWhenMapIsEmpty()
+    {
+        val emptyMap = mutableMapOf<String, String>()
+        val emptyMapEntry = emptyMap.anyEntry
+
+        assertTrue(emptyMapEntry.isNull)
+    }
 }

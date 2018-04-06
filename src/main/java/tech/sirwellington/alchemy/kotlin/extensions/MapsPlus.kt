@@ -37,3 +37,16 @@ inline fun <reified K, reified V> MutableMap<K, V>.removeWhere(predicate: (Map.E
 
     return keysToRemove.size
 }
+
+/**
+ * @author Joel Ramirez
+ *
+ * @return a random entry from map
+ */
+val <K,V> Map<K, V>.anyEntry: Map.Entry<K, V>?
+    get()
+    {
+        val entryList = entries.toList()
+        return entryList.anyElement
+    }
+
