@@ -90,11 +90,11 @@ class MapsPlusTest
     fun testAnyEntry()
     {
         val entry = map.anyEntry!!
-        val key = entry.key 
-        val value = entry.value 
-        
+        val key = entry.key
+        val value = entry.value
+
         assertTrue(map.containsKey(key))
-        assertTrue(map[key], equalTo(value))
+        assertThat(map[key], equalTo(value))
     }
 
     @Test
