@@ -16,6 +16,9 @@
 
 package tech.sirwellington.alchemy.kotlin.extensions
 
+import java.net.URL
+import javax.xml.bind.DatatypeConverter
+
 
 /**
  *
@@ -75,3 +78,27 @@ val String.firstLetter: String?
         val firstCharacter = this[0]
         return firstCharacter.toString()
     }
+
+
+/**
+ * Call this on a Base64-encoded String to get the underlying binary
+ *
+ * @return The Binary representation of this Base64 encoded string.
+ */
+val String.base64Decoded: ByteArray?
+get()
+{
+    return tryOrNull { DatatypeConverter.parseBase64Binary(this) }
+}
+
+/**
+ * Call this on a string to attempt to load it as a URL.
+ * If the operation fails, `null` will be returned.
+ *
+ * @return A [URL]-representation of this string
+ */
+val String.asURL: URL?
+get()
+{
+    return tryOrNull { URL(this) }
+}
