@@ -243,7 +243,7 @@ class ListsPlusKtTest
     fun testCirculateNextCompletesList()
     {
         val copy = list.toMutableList()
-        var collect = mutableListOf<String>()
+        val collect = mutableListOf<String>()
 
         (0 until list.size).forEach()
         {
