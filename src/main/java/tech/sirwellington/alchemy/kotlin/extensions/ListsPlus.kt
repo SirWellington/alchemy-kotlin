@@ -70,6 +70,12 @@ fun <T> List<T>.shuffled(): List<T>
 }
 
 /**
+ * @return The first element of the list, if it exists
+ */
+val <T> List<T>?.first: T? get() = this?.firstOrNull()
+
+
+/**
  *
  * @return a random element from the list, null if the list is empty or null.
  */

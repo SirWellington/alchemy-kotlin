@@ -18,6 +18,7 @@ package tech.sirwellington.alchemy.kotlin.extensions
 
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
+import com.natpryce.hamkrest.hasElement
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -29,11 +30,14 @@ import tech.sirwellington.alchemy.generator.one
 import tech.sirwellington.alchemy.test.junit.runners.AlchemyTestRunner
 import tech.sirwellington.alchemy.test.junit.runners.GenerateString
 import tech.sirwellington.alchemy.test.junit.runners.Repeat
+import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @RunWith(AlchemyTestRunner::class)
-@Repeat
+@Repeat(200)
 class ListsPlusKtTest
 {
 
@@ -185,6 +189,29 @@ class ListsPlusKtTest
     {
         val result = mutable.removeWhere { it == newElement }
         assertFalse { result }
+    }
+
+    @Test
+    fun testAnyElement()
+    {
+        val result = list.anyElement
+        assertThat(list, hasElement(result))
+    }
+
+    @Test
+    fun testFirst()
+    {
+        val result = list.first
+        assertNotNull(result)
+        assertEquals(result, list[0])
+    }
+
+    @Test
+    fun testFirstWhenListIsEmpty()
+    {
+        val emptyList = emptyList<String>()
+        val first = emptyList.first
+        assertNull(first)
     }
 
 }
