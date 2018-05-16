@@ -16,6 +16,7 @@ import java.net.URL
 import javax.xml.bind.DatatypeConverter
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @RunWith(AlchemyTestRunner::class)
@@ -88,6 +89,13 @@ class StringsPlusKtTest
         val string = url.toString()
         val result = string.asURL
         assertThat(result, equalTo(expected))
+    }
+
+    @Test
+    fun testAsURLWhenNotURL()
+    {
+        val result = string.asURL
+        assertNull(result)
     }
 
 }
