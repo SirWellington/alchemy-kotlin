@@ -65,6 +65,16 @@
         </dependency>
 
         <!--=======================-->
+        <!--ALCHEMY-->
+        <!--=======================-->
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>alchemy-annotations</artifactId>
+            <version>2.1</version>
+        </dependency>
+
+        <!--=======================-->
         <!--KOTLIN-->
         <!--=======================-->
 
