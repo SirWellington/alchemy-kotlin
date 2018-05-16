@@ -16,6 +16,7 @@
 
 package tech.sirwellington.alchemy.kotlin.extensions
 
+import tech.sirwellington.alchemy.annotations.concurrency.ThreadUnsafe
 import java.util.Collections
 
 
@@ -70,10 +71,15 @@ fun <T> List<T>.shuffled(): List<T>
 }
 
 /**
- * @return The first element of the list, if it exists
+ * @return The first element of the list, or `null` if the list is empty.
  */
 val <T> List<T>?.first: T? get() = this?.firstOrNull()
 
+
+/**
+ * @return the last element of the list, or `null` if the list is empty.
+ */
+val <T> List<T>?.last: T? get() = this?.lastOrNull()
 
 /**
  *
@@ -142,4 +148,20 @@ inline fun <reified T> Collection<T>.containsWhere(predicate: (T) -> Boolean): B
 inline fun <reified T> MutableCollection<T>.removeWhere(predicate: (T) -> Boolean): Boolean
 {
     return this.removeElementIf(predicate)
+}
+
+/**
+ * Removes and returns the first element, and then adds it to the back of the list.
+ * Use this function to turn any list into a circular array.
+ *
+ * @return The element currently at the front.
+ */
+@ThreadUnsafe
+inline fun <reified T> MutableList<T>.circulateNext(): T?
+{
+    if (this.isEmpty()) return null
+    val first = removeAt(0)
+    add(first)
+
+    return first
 }

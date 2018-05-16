@@ -214,4 +214,66 @@ class ListsPlusKtTest
         assertNull(first)
     }
 
+    @Test
+    fun testLast()
+    {
+        val result = list.last
+        assertNotNull(result)
+        assertEquals(result, list[list.size-1])
+    }
+
+    @Test
+    fun testLastWhenListIsEmpty()
+    {
+        val emptyList = emptyList<String>()
+        val last = emptyList.last
+        assertNull(last)
+    }
+
+    @Test
+    fun testCirculateNext()
+    {
+        val copy = list.toMutableList()
+        val first = copy.circulateNext()
+        assertThat(first, equalTo(list.first))
+        assertThat(copy.last, equalTo(first))
+    }
+
+    @Test
+    fun testCirculateNextCompletesList()
+    {
+        val copy = list.toMutableList()
+        var collect = mutableListOf<String>()
+
+        (0 until list.size).forEach()
+        {
+            val next = copy.circulateNext()
+            collect.add(next!!)
+        }
+
+        assertThat(collect, equalTo(list))
+        assertThat(copy, equalTo(list))
+    }
+
+    @Test
+    fun testCirculateNextDoesNotRunOut()
+    {
+        val copy = list.toMutableList()
+        val iterations = list.size * 3
+
+        (0 until iterations).forEach()
+        {
+            val result = copy.circulateNext()
+            assertThat(list, hasElement(result))
+        }
+    }
+
+    @Test
+    fun testCirculateNextWhenEmpty()
+    {
+        val emptyList = mutableListOf<String>()
+        val next = emptyList.circulateNext()
+        assertNull(next)
+    }
+
 }
