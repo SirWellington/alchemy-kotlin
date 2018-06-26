@@ -45,7 +45,8 @@ class ThrowablesPlusKtTest
     @Test
     fun testTryOrNullWhenThrows()
     {
-        val result = tryOrNull {
+        val result = tryOrNull()
+        {
             if (!string.isEmpty)
                 throw RuntimeException("failed")
             else
@@ -58,7 +59,8 @@ class ThrowablesPlusKtTest
     @Test
     fun testTryOrNullWithSpecificException()
     {
-        val result = tryOrNull(CustomException::class.java) {
+        val result = tryOrNull(CustomException::class.java)
+        {
             string
         }
 
@@ -69,8 +71,9 @@ class ThrowablesPlusKtTest
     fun testTryOrNullWithSpecificExceptionWhenExceptionThrown()
     {
 
-        val result = tryOrNull(CustomException::class.java) {
-            if (string.notNull)
+        val result = tryOrNull(CustomException::class.java)
+        {
+            if (string.isNotNull)
                 throw CustomException()
             else
                 string
@@ -78,11 +81,13 @@ class ThrowablesPlusKtTest
 
         assertTrue { result.isNull }
 
-        ThrowableAssertion.assertThrows {
+        ThrowableAssertion.assertThrows()
+        {
 
-            tryOrNull(CustomException::class.java) {
+            tryOrNull(CustomException::class.java)
+            {
 
-                if (string.notNull)
+                if (string.isNotNull)
                     throw SQLException("")
                 else
                     string

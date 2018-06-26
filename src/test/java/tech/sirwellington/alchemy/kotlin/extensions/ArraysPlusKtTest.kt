@@ -84,7 +84,7 @@ class ArraysPlusKtTest
     {
         val element = array.anyElement
 
-        assertTrue(element.notNull)
+        assertTrue(element.isNotNull)
         assertThat(element!!, isIn(array.toList()))
     }
 

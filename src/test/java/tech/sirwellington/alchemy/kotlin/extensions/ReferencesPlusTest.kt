@@ -45,8 +45,8 @@ class ReferencesPlusTest
     {
         val weakReference = originalReference.asWeak()
 
-        assertTrue(weakReference.notNull)
-        assertTrue(weakReference.get().notNull)
+        assertTrue(weakReference.isNotNull)
+        assertTrue(weakReference.get().isNotNull)
         assertThat(weakReference.get(), equalTo(originalReference))
     }
 
@@ -58,7 +58,7 @@ class ReferencesPlusTest
 
         System.gc()
 
-        assertTrue(weakReference.notNull)
+        assertTrue(weakReference.isNotNull)
         assertTrue(weakReference.get().isNull)
 
     }
@@ -111,13 +111,13 @@ class ReferencesPlusTest
     }
 
     @Test
-    fun testNotNull()
+    fun testIsNotNull()
     {
         val nonNullRef = originalReference
-        assertTrue(nonNullRef.notNull)
+        assertTrue(nonNullRef.isNotNull)
 
         val nullRef: String? = null
-        assertFalse(nullRef.notNull)
+        assertFalse(nullRef.isNotNull)
     }
 
 }

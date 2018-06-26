@@ -49,7 +49,8 @@ inline fun <reified T> weakNonNull(ref: T, crossinline block: (ref: T) -> Unit):
 {
     val weakReference = ref.asWeak()
 
-    return function@ {
+    return function@
+    {
         val strongReference = weakReference.get() ?: return@function
         block(strongReference)
     }
@@ -74,7 +75,8 @@ fun <T> WeakReference<T>.isTheSameReferenceAs(other: WeakReference<T>): Boolean
  */
 fun <T> List<WeakReference<T>>.alreadyContainsWeakRef(weakReference: WeakReference<T>): Boolean
 {
-    forEach {
+    forEach()
+    {
         if (it.isTheSameReferenceAs(weakReference))
         {
             return true
@@ -92,4 +94,4 @@ val Any?.isNull: Boolean get() = this == null
 /**
  * @return `true` if `this != null`, `false` otherwise.
  */
-val Any?.notNull: Boolean get() = this != null
+val Any?.isNotNull: Boolean get() = this != null
