@@ -15,20 +15,26 @@
 
 package tech.sirwellington.alchemy.kotlin.extensions
 
+import com.natpryce.hamkrest.and
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import com.natpryce.hamkrest.hasElement
+import com.natpryce.hamkrest.isEmpty
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import tech.sirwellington.alchemy.generator.CollectionGenerators.Companion.listOf
+import tech.sirwellington.alchemy.generator.NumberGenerators
 import tech.sirwellington.alchemy.generator.NumberGenerators.Companion.integers
 import tech.sirwellington.alchemy.generator.NumberGenerators.Companion.negativeIntegers
 import tech.sirwellington.alchemy.generator.StringGenerators.Companion.strings
 import tech.sirwellington.alchemy.generator.one
+import tech.sirwellington.alchemy.test.hamcrest.hasSize
+import tech.sirwellington.alchemy.test.hamcrest.notNull
 import tech.sirwellington.alchemy.test.junit.runners.AlchemyTestRunner
 import tech.sirwellington.alchemy.test.junit.runners.GenerateString
 import tech.sirwellington.alchemy.test.junit.runners.Repeat
+import tech.sirwellington.alchemy.test.kotlin.assertThrows
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
@@ -273,6 +279,46 @@ class ListsPlusKtTest
         val emptyList = mutableListOf<String>()
         val next = emptyList.circulateNext()
         assertNull(next)
+    }
+
+    @Test
+    fun testCreateListOf()
+    {
+        val values = list
+        val size = Int.random(5, 100)
+
+        val result = createListOf(size) {
+            values.anyElement!!
+        }
+
+        assertThat(result, hasSize(size))
+
+        result.forEach { assertThat(values, hasElement(it)) }
+    }
+
+    @Test
+    fun testCreateListWithSizeZero()
+    {
+        val result = createListOf(0) { list.anyElement!! }
+        assertThat(result, notNull and isEmpty)
+    }
+
+    @Test
+    fun testCreateListWithSameValue()
+    {
+        val size = Int.random(10, 100)
+        val result = createListOf(size) { this.element }
+        assertThat(result, hasSize(size))
+        result.forEach { assertThat(it, equalTo(element)) }
+    }
+
+    @Test
+    fun testCreateListWithInvalidSize()
+    {
+        val badSize = NumberGenerators.negativeIntegers().get()
+
+        assertThrows { createListOf(badSize) { "" } }
+                .isInstanceOf(IllegalArgumentException::class.java)
     }
 
 }

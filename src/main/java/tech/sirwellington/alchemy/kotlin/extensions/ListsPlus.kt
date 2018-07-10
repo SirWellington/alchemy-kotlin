@@ -164,3 +164,17 @@ inline fun <reified T> MutableList<T>.circulateNext(): T?
 
     return first
 }
+
+/**
+ * Creates a list of size [size], using the specified [generator].
+ */
+fun <E> createListOf(size: Int = 10, generator: () -> E): List<E>
+{
+    when
+    {
+        size < 0 -> throw IllegalArgumentException("size must be >= 0")
+        size == 0 -> return emptyList()
+    }
+
+    return (0 until size).map { generator() }
+}
