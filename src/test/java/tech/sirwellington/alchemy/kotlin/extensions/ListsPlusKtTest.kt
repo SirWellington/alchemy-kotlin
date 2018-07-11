@@ -329,4 +329,12 @@ class ListsPlusKtTest
         assertTrue { (null as List<String>?).isNullOrEmpty }
     }
 
+    @Test
+    fun testNotNullOrEmpty()
+    {
+        assertTrue { list.notNullOrEmpty }
+        assertFalse { emptyList<String>().notNullOrEmpty }
+        assertFalse { (null as List<String>?).notNullOrEmpty }
+    }
+
 }

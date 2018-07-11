@@ -184,3 +184,9 @@ fun <E> createListOf(size: Int = 10, generator: () -> E): List<E>
  */
 val <E> Collection<E>?.isNullOrEmpty
     get() = this == null || this.isEmpty()
+
+/**
+ * @return `true` if this collection is neither `null` nor [empty][Collection.isEmpty].
+ */
+val <E> Collection<E>?.notNullOrEmpty
+    get() = !isNullOrEmpty
