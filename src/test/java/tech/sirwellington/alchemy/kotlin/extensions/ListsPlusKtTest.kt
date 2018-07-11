@@ -321,4 +321,12 @@ class ListsPlusKtTest
                 .isInstanceOf(IllegalArgumentException::class.java)
     }
 
+    @Test
+    fun testIsNullOrEmpty()
+    {
+        assertFalse { list.isNullOrEmpty }
+        assertTrue { emptyList<String>().isNullOrEmpty }
+        assertTrue { (null as List<String>?).isNullOrEmpty }
+    }
+
 }

@@ -178,3 +178,9 @@ fun <E> createListOf(size: Int = 10, generator: () -> E): List<E>
 
     return (0 until size).map { generator() }
 }
+
+/**
+ * @return `true` if this collection is `null` or [empty][Collection.isEmpty].
+ */
+val <E> Collection<E>?.isNullOrEmpty
+    get() = this == null || this.isEmpty()
