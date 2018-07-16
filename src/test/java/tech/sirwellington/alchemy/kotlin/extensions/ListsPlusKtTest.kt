@@ -337,4 +337,47 @@ class ListsPlusKtTest
         assertFalse { (null as List<String>?).notNullOrEmpty }
     }
 
+    @Test
+    fun testPopFirst()
+    {
+        val list = this.list.toMutableList()
+        val expectedElement = list.first
+        val expectedList = list.drop(1)
+
+        val result = list.popFirst()
+        assertThat(result, notNull and equalTo(expectedElement))
+        assertThat(list, equalTo(expectedList))
+    }
+
+    @Test
+    fun testPopFirstWhenEmpty()
+    {
+        val list = mutableListOf<String>()
+        val result = list.popFirst()
+        assertNull(result)
+        assertThat(list, notNull and isEmpty)
+    }
+
+    @Test
+    fun testPopLast()
+    {
+        val list = this.list.toMutableList()
+        val expectedElement = list.last
+        val expectedList = list.dropLast(1)
+
+        val result = list.popLast()
+        assertThat(result, equalTo(expectedElement))
+        assertThat(list, equalTo(expectedList))
+    }
+
+    @Test
+    fun testPopLastWhenEmpty()
+    {
+        val list  = mutableListOf<String>()
+
+        val result = list.popLast()
+        assertNull(result)
+        assertThat(list, isEmpty and notNull)
+    }
+
 }

@@ -190,3 +190,34 @@ val <E> Collection<E>?.isNullOrEmpty
  */
 val <E> Collection<E>?.notNullOrEmpty
     get() = !isNullOrEmpty
+
+/**
+ * Remove and returns the first element of this list.
+ */
+fun <E> MutableList<E>.popFirst(): E?
+{
+    return if (this.isEmpty())
+    {
+        null
+    }
+    else
+    {
+        this.removeAt(0)
+    }
+}
+
+/**
+ * Removes and returns the last element of this list.
+ */
+fun <E> MutableList<E>.popLast(): E?
+{
+    return if (this.isEmpty())
+    {
+        null
+    }
+    else
+    {
+        this.removeAt(lastIndex)
+    }
+
+}
