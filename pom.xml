@@ -26,7 +26,7 @@
     </parent>
 
     <artifactId>alchemy-kotlin</artifactId>
-    <version>1.3.3-SNAPSHOT</version>
+    <version>1.3.3</version>
 
     <pluginRepositories>
         <pluginRepository>
@@ -82,7 +82,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>alchemy-annotations</artifactId>
-            <version>2.1.2</version>
+            <version>2.1.3</version>
         </dependency>
 
         <!--=======================-->
