@@ -91,6 +91,16 @@ get()
 }
 
 /**
+ * Call this on a [ByteArray] to convert in into a Base64-Encoded [String].
+ * @return A Base64-encoded version of this [ByteArray].
+ */
+val ByteArray.base64Encoded: String?
+get()
+{
+    return tryOrNull { DatatypeConverter.printBase64Binary(this) }
+}
+
+/**
  * Call this on a string to attempt to load it as a URL.
  * If the operation fails, `null` will be returned.
  *

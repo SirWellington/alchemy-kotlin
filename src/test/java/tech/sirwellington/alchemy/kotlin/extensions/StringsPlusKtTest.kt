@@ -15,6 +15,7 @@
 
 package tech.sirwellington.alchemy.kotlin.extensions
 
+import com.natpryce.hamkrest.and
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Assert
@@ -22,6 +23,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import tech.sirwellington.alchemy.generator.BinaryGenerators
 import tech.sirwellington.alchemy.test.hamcrest.nonEmptyString
+import tech.sirwellington.alchemy.test.hamcrest.notNull
 import tech.sirwellington.alchemy.test.junit.runners.AlchemyTestRunner
 import tech.sirwellington.alchemy.test.junit.runners.GenerateString
 import tech.sirwellington.alchemy.test.junit.runners.GenerateString.Type.ALPHABETIC
@@ -95,6 +97,15 @@ class StringsPlusKtTest
         val result = base64.base64Decoded
         assertNotNull(result)
         Assert.assertArrayEquals(result, binary)
+    }
+
+    @Test
+    fun testBase64Encoded()
+    {
+        val binary = BinaryGenerators.binary(2048).get()
+        val expected = DatatypeConverter.printBase64Binary(binary)
+        val result = binary.base64Encoded
+        assertThat(result, notNull and equalTo(expected))
     }
 
     @Test
