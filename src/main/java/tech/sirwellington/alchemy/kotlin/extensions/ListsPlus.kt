@@ -17,6 +17,7 @@ package tech.sirwellington.alchemy.kotlin.extensions
 
 import tech.sirwellington.alchemy.annotations.concurrency.ThreadUnsafe
 import java.util.Collections
+import java.util.LinkedList
 
 
 /**
@@ -220,4 +221,49 @@ fun <E> MutableList<E>.popLast(): E?
         this.removeAt(lastIndex)
     }
 
+}
+
+//===========================================
+// LINKED LIST EXTENSIONS
+//===========================================
+
+/**
+ * Creates a [LinkedList] from [this].
+ *
+ * @author SirWellington
+ */
+fun <E> Collection<E>.toLinkedList(): LinkedList<E>
+{
+    return LinkedList(this)
+}
+
+/**
+ * Removes and returns the first element in the LinkedList, or returns `null` if the list
+ * is empty.
+ */
+fun <E> LinkedList<E>.popSafe(): E?
+{
+    return if (isEmpty()) null else pop()
+}
+
+/**
+ * @return `true` if the list is [List.isEmpty], `false` otherwise.
+ */
+val <E> List<E>.notEmpty get() = this.isNotEmpty()
+
+/**
+ * Removes and returns the remaining elements in the LinkedList.
+ * This function essentially returns the list in reverse.
+ */
+fun <E> LinkedList<E>.popRemaining(collector: (E) -> (Unit))
+{
+    while (notEmpty)
+    {
+        val value = popSafe()
+
+        if (value != null)
+            collector(value)
+        else
+            return
+    }
 }

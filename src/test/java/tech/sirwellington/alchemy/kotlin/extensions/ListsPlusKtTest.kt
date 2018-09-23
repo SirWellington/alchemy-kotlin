@@ -20,6 +20,7 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import com.natpryce.hamkrest.hasElement
 import com.natpryce.hamkrest.isEmpty
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -32,9 +33,11 @@ import tech.sirwellington.alchemy.generator.one
 import tech.sirwellington.alchemy.test.hamcrest.hasSize
 import tech.sirwellington.alchemy.test.hamcrest.notNull
 import tech.sirwellington.alchemy.test.junit.runners.AlchemyTestRunner
+import tech.sirwellington.alchemy.test.junit.runners.GenerateList
 import tech.sirwellington.alchemy.test.junit.runners.GenerateString
 import tech.sirwellington.alchemy.test.junit.runners.Repeat
 import tech.sirwellington.alchemy.test.kotlin.assertThrows
+import java.util.LinkedList
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
@@ -380,4 +383,55 @@ class ListsPlusKtTest
         assertThat(list, isEmpty and notNull)
     }
 
+
+}
+
+@RunWith(AlchemyTestRunner::class)
+@Repeat(200)
+class LinkedListTests
+{
+    @GenerateList(value = String::class, size = 25)
+    private lateinit var list: List<String>
+
+    @Test
+    fun testToLinkedList()
+    {
+        val expected = LinkedList(list)
+        val result = list.toLinkedList()
+        assertThat(result, equalTo(expected))
+        Assert.assertTrue(result is LinkedList)
+    }
+
+    @Test
+    fun testPopSafeWhenEmpty()
+    {
+        val emptyList = listOf<String>().toLinkedList()
+        val result = emptyList.popSafe()
+        assertThat(result, tech.sirwellington.alchemy.test.hamcrest.isNull)
+    }
+
+    @Test
+    fun testPopSafe()
+    {
+        val list = this.list.toLinkedList()
+        val expected = list.first
+        val result = list.popSafe()
+
+        assertThat(result, equalTo(expected))
+        assertThat(list, hasSize(this.list.size - 1))
+    }
+
+    @Test
+    fun testGetNotEmptyWhenEmpty()
+    {
+        val emptyList = LinkedList<String>()
+        Assert.assertFalse(emptyList.notEmpty)
+    }
+
+    @Test
+    fun testNotEmpty()
+    {
+        val list = this.list.toLinkedList()
+        Assert.assertTrue(list.notEmpty)
+    }
 }
