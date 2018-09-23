@@ -37,7 +37,7 @@ fun Date.isInTheFuture(): Boolean = this.time > Date().time
  * @return Returns how many years ago the date was.
  * @author SirWellington
  */
-internal val java.sql.Date.yearsAgo: Int
+val java.sql.Date.yearsAgo: Int
     get()
     {
         val period = Period.between(this.toLocalDate(), LocalDate.now())
@@ -48,14 +48,14 @@ internal val java.sql.Date.yearsAgo: Int
  * @return Returns how many years ago the date was.
  * @author SirWellington
  */
-internal val java.util.Date.yearsAgo get() = this.toSqlDate().yearsAgo
+val java.util.Date.yearsAgo get() = this.toSqlDate().yearsAgo
 
 /**
  * @return a [java.util.Date] version of this [java.sql.Date] object.
  */
-internal fun java.sql.Date.toJavaUtilDate() = java.util.Date(this.time)
+fun java.sql.Date.toJavaUtilDate() = java.util.Date(this.time)
 
 /**
  * @return a [java.sql.Date] version of this [java.util.Date] object.
  */
-internal fun java.util.Date.toSqlDate() = java.sql.Date(this.time)
+fun java.util.Date.toSqlDate() = java.sql.Date(this.time)
