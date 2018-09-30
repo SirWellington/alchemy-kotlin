@@ -31,6 +31,7 @@ import tech.sirwellington.alchemy.generator.NumberGenerators.Companion.negativeI
 import tech.sirwellington.alchemy.generator.StringGenerators.Companion.strings
 import tech.sirwellington.alchemy.generator.one
 import tech.sirwellington.alchemy.test.hamcrest.hasSize
+import tech.sirwellington.alchemy.test.hamcrest.isNull
 import tech.sirwellington.alchemy.test.hamcrest.notNull
 import tech.sirwellington.alchemy.test.junit.runners.AlchemyTestRunner
 import tech.sirwellington.alchemy.test.junit.runners.GenerateList
@@ -38,11 +39,7 @@ import tech.sirwellington.alchemy.test.junit.runners.GenerateString
 import tech.sirwellington.alchemy.test.junit.runners.Repeat
 import tech.sirwellington.alchemy.test.kotlin.assertThrows
 import java.util.LinkedList
-import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertNotNull
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
+import kotlin.test.*
 
 @RunWith(AlchemyTestRunner::class)
 @Repeat(200)
@@ -52,6 +49,8 @@ class ListsPlusKtTest
     private lateinit var list: List<String>
 
     private lateinit var mutable: MutableList<String>
+
+    private val emptyList = mutableListOf<String>()
 
     private lateinit var element: String
 
@@ -117,7 +116,6 @@ class ListsPlusKtTest
     @Test
     fun testAddToFrontWhenListEmpty()
     {
-        val emptyList = mutableListOf<String>()
         emptyList.addToFront(newElement)
 
         val expected = mutableListOf(newElement)
@@ -217,9 +215,36 @@ class ListsPlusKtTest
     @Test
     fun testFirstWhenListIsEmpty()
     {
-        val emptyList = emptyList<String>()
         val first = emptyList.first
         assertNull(first)
+    }
+
+    @Test
+    fun testSecond()
+    {
+        val result = list.second
+        assertThat(result, notNull and equalTo(list[1]))
+    }
+
+    @Test
+    fun testSecondWhenEmpty()
+    {
+        val result = emptyList.second
+        assertThat(result, isNull)
+    }
+
+    @Test
+    fun testThird()
+    {
+        val result = list.third
+        assertThat(result, equalTo(list[2]))
+    }
+
+    @Test
+    fun testThirdWhenEmpty()
+    {
+        val result = emptyList.third
+        assertThat(result, isNull)
     }
 
     @Test

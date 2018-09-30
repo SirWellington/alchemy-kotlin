@@ -77,6 +77,17 @@ val <T> List<T>?.first: T? get() = this?.firstOrNull()
 
 
 /**
+ * @return The second element of the list, or `null` if there isn't a second element.
+ */
+val <T> List<T>?.second: T? get() = this?.getOrNull(1)
+
+/**
+ * @return The third element of the list, or `null` if there isn't one.
+ */
+val <T> List<T>?.third: T? get() = this?.getOrNull(2)
+
+
+/**
  * @return the last element of the list, or `null` if the list is empty.
  */
 val <T> List<T>?.last: T? get() = this?.lastOrNull()
