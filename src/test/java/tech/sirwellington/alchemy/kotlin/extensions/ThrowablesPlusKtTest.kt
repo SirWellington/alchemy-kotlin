@@ -20,7 +20,6 @@ import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 import org.junit.runner.RunWith
 import tech.sirwellington.alchemy.test.hamcrest.isNull
-import tech.sirwellington.alchemy.test.hamcrest.notNull
 import tech.sirwellington.alchemy.test.junit.ThrowableAssertion
 import tech.sirwellington.alchemy.test.junit.runners.AlchemyTestRunner
 import tech.sirwellington.alchemy.test.junit.runners.GenerateString
@@ -53,7 +52,7 @@ class ThrowablesPlusKtTest
                 string
         }
 
-        assertThat(result, notNull)
+        assertThat(result, isNull)
     }
 
     @Test

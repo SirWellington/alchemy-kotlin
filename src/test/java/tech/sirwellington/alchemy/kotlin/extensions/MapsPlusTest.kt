@@ -24,7 +24,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import tech.sirwellington.alchemy.generator.CollectionGenerators
 import tech.sirwellington.alchemy.generator.StringGenerators
-import tech.sirwellington.alchemy.test.hamcrest.notNull
+import tech.sirwellington.alchemy.test.hamcrest.isNull
 import tech.sirwellington.alchemy.test.junit.runners.AlchemyTestRunner
 import tech.sirwellington.alchemy.test.junit.runners.Repeat
 
@@ -103,6 +103,7 @@ class MapsPlusTest
         val emptyMap = mutableMapOf<String, String>()
         val emptyMapEntry = emptyMap.anyEntry
 
-        assertThat(emptyMapEntry, notNull)
+        assertThat(emptyMapEntry, isNull)
     }
+
 }
