@@ -19,12 +19,13 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 import org.junit.runner.RunWith
+import tech.sirwellington.alchemy.test.hamcrest.isNull
+import tech.sirwellington.alchemy.test.hamcrest.notNull
 import tech.sirwellington.alchemy.test.junit.ThrowableAssertion
 import tech.sirwellington.alchemy.test.junit.runners.AlchemyTestRunner
 import tech.sirwellington.alchemy.test.junit.runners.GenerateString
 import tech.sirwellington.alchemy.test.junit.runners.Repeat
 import java.sql.SQLException
-import kotlin.test.assertTrue
 
 @RunWith(AlchemyTestRunner::class)
 @Repeat(50)
@@ -52,7 +53,7 @@ class ThrowablesPlusKtTest
                 string
         }
 
-        assertTrue { result.isNull }
+        assertThat(result, notNull)
     }
 
     @Test
@@ -72,13 +73,13 @@ class ThrowablesPlusKtTest
 
         val result = tryOrNull(CustomException::class.java)
         {
-            if (string.isNotNull)
+            if (string != null)
                 throw CustomException()
             else
                 string
         }
 
-        assertTrue { result.isNull }
+        assertThat(result, isNull)
 
         ThrowableAssertion.assertThrows()
         {
@@ -86,7 +87,7 @@ class ThrowablesPlusKtTest
             tryOrNull(CustomException::class.java)
             {
 
-                if (string.isNotNull)
+                if (string != null)
                     throw SQLException("")
                 else
                     string
