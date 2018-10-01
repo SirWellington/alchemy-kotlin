@@ -111,3 +111,9 @@ get()
 {
     return tryOrNull { URL(this) }
 }
+
+/**
+ * @return The last String character in this String.
+ */
+val String.lastCharacter: String?
+    get() = if (isEmpty) null else takeLast(1)

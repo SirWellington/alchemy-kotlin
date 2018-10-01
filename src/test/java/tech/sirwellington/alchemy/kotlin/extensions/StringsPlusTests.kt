@@ -22,13 +22,11 @@ import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import tech.sirwellington.alchemy.generator.BinaryGenerators
+import tech.sirwellington.alchemy.test.hamcrest.isNull
 import tech.sirwellington.alchemy.test.hamcrest.nonEmptyString
 import tech.sirwellington.alchemy.test.hamcrest.notNull
-import tech.sirwellington.alchemy.test.junit.runners.AlchemyTestRunner
-import tech.sirwellington.alchemy.test.junit.runners.GenerateString
+import tech.sirwellington.alchemy.test.junit.runners.*
 import tech.sirwellington.alchemy.test.junit.runners.GenerateString.Type.ALPHABETIC
-import tech.sirwellington.alchemy.test.junit.runners.GenerateURL
-import tech.sirwellington.alchemy.test.junit.runners.Repeat
 import java.net.URL
 import javax.xml.bind.DatatypeConverter
 import kotlin.test.assertFalse
@@ -38,7 +36,7 @@ import kotlin.test.assertTrue
 
 @RunWith(AlchemyTestRunner::class)
 @Repeat(150)
-class StringsPlusKtTest
+class StringsPlusTests
 {
     @GenerateString
     private lateinit var string: String
@@ -122,6 +120,23 @@ class StringsPlusKtTest
     {
         val result = string.asURL
         assertNull(result)
+    }
+
+    @Test
+    fun testLastCharacter()
+    {
+        val expected = string.last().toString()
+        val result = string.lastCharacter
+        assertThat(result, equalTo(expected))
+    }
+
+    @DontRepeat
+    @Test
+    fun testLastCharWhenEmpty()
+    {
+        val string = ""
+        val result = string.lastCharacter
+        assertThat(result, isNull)
     }
 
 }
