@@ -139,4 +139,14 @@ class StringsPlusTests
         assertThat(result, isNull)
     }
 
+    @Test
+    fun testStringBuilderPlusAssign()
+    {
+        val builder = StringBuilder()
+        builder += string
+        val result = builder.toString()
+        assertThat(result, equalTo(string))
+
+    }
+
 }

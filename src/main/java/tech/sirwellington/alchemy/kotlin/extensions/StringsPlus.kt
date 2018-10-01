@@ -117,3 +117,12 @@ get()
  */
 val String.lastCharacter: String?
     get() = if (isEmpty) null else takeLast(1)
+
+
+/**
+ * Allows for the use of the `+=` operation with [StringBuilder].
+ */
+operator fun StringBuilder.plusAssign(string: String)
+{
+    append(string)
+}
