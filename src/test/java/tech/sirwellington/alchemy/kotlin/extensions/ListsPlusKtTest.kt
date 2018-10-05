@@ -28,6 +28,7 @@ import tech.sirwellington.alchemy.generator.CollectionGenerators.Companion.listO
 import tech.sirwellington.alchemy.generator.NumberGenerators
 import tech.sirwellington.alchemy.generator.NumberGenerators.Companion.integers
 import tech.sirwellington.alchemy.generator.NumberGenerators.Companion.negativeIntegers
+import tech.sirwellington.alchemy.generator.StringGenerators
 import tech.sirwellington.alchemy.generator.StringGenerators.Companion.strings
 import tech.sirwellington.alchemy.generator.one
 import tech.sirwellington.alchemy.test.hamcrest.hasSize
@@ -56,6 +57,9 @@ class ListsPlusKtTest
 
     @GenerateString
     private lateinit var newElement: String
+
+    private val generateNewString
+        get() = StringGenerators.alphanumericStrings().get()
 
 
     @Before
@@ -181,6 +185,48 @@ class ListsPlusKtTest
     {
         val result = list.containsWhere { it == null }
         assertFalse { result }
+    }
+
+    @Test
+    fun testContainsAnyOfWithNoArgs()
+    {
+        assertFalse { list.containsAnyOf() }
+    }
+
+    @Test
+    fun testContainsAnyOfWithOneArg()
+    {
+        val element = list.anyElement!!
+        assertTrue { list.containsAnyOf(element) }
+    }
+
+    @Test
+    fun testContainsAnyOfWithTwo()
+    {
+        val first = list.anyElement!!
+        val second = generateNewString
+        assertTrue { list.containsAnyOf(first, second) }
+    }
+
+    @Test
+    fun testContainsAnyOfWithMultiple()
+    {
+        val first = list.shuffled().takeLast(3).toTypedArray()
+        assertTrue { list.containsAnyOf(*first) }
+
+        val existing = list.anyElement!!
+        val second = createListOf(10) { generateNewString } + listOf(existing)
+        assertTrue { list.containsAnyOf(*second.toTypedArray()) }
+    }
+
+    @Test
+    fun testContainsAnyOfWhenNotContains()
+    {
+        val string = generateNewString
+        assertFalse { list.containsAnyOf(string) }
+
+        val multiple = createListOf(10) { generateNewString }
+        assertFalse { list.containsAnyOf(*multiple.toTypedArray()) }
     }
 
     @Test

@@ -152,6 +152,16 @@ inline fun <reified T> Collection<T>.containsWhere(predicate: (T) -> Boolean): B
 }
 
 /**
+ * @param elements The arguments to check for containment.
+ *
+ * @return `true` If this Collection contains any of the specified [elements], `false` otherwise.
+ */
+inline fun <reified T> Collection<T>.containsAnyOf(vararg elements: T): Boolean
+{
+    return elements.any { this.contains(it) }
+}
+
+/**
  * Simple alias for [removeElementIf].
  *
  * @see removeElementIf
