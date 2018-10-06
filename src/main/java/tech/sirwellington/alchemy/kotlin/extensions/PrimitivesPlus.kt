@@ -17,12 +17,6 @@ package tech.sirwellington.alchemy.kotlin.extensions
 
 import java.util.Random
 
-
-/**
- *
- * @author SirWellington
- */
-
 /**
  * @return A Random [Int] from [fromInclusive] to [toExclusive].
  * @throws IllegalArgumentException if [fromInclusive] `>` [toExclusive].
@@ -81,4 +75,23 @@ fun Boolean.inversed(): Boolean = !this
 inline fun Int.repeat(block: () -> (Unit))
 {
     (0 until this).forEach { block() }
+}
+
+//===========================================
+// DOUBLES
+//===========================================
+
+/**
+ * @return A Random [Int] from [fromInclusive] to [toExclusive].
+ * @throws IllegalArgumentException if [fromInclusive] `>` [toExclusive].
+ */
+fun Double.Companion.random(fromInclusive: Double, toExclusive: Double): Double
+{
+    if (fromInclusive == toExclusive) return fromInclusive
+
+    if (fromInclusive > toExclusive) throw IllegalArgumentException("Expected from[$fromInclusive] to be < to[$toExclusive]")
+
+    val random = Random()
+    val diff = toExclusive - fromInclusive
+    return fromInclusive + diff + (random.nextDouble() - 1.0)
 }

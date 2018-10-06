@@ -33,14 +33,26 @@ import tech.sirwellington.alchemy.test.junit.runners.Repeat
 @Repeat
 class PrimitivesPlusKtTest
 {
+
     @Test
-    fun testRandom()
+    fun testRandomInt()
     {
         val begin = one(NumberGenerators.integers(0, 100))
         val end = one(NumberGenerators.integers(100, 1_000))
 
         val result = Int.random(begin, end)
         assertTrue(result in begin until end)
+    }
+
+    @Test
+    fun testRandomDouble()
+    {
+        val begin = one(NumberGenerators.doubles(0.0, 100.0))
+        val end = one(NumberGenerators.doubles(100.0, 1_000.0))
+
+        val result = Double.random(begin, end)
+        assertTrue(result >= begin)
+        assertTrue(result <= end)
     }
 
     @Test
