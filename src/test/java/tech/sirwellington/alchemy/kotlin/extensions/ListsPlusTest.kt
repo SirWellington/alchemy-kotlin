@@ -44,7 +44,7 @@ import kotlin.test.*
 
 @RunWith(AlchemyTestRunner::class)
 @Repeat(200)
-class ListsPlusKtTest
+class ListsPlusTest
 {
 
     private lateinit var list: List<String>
@@ -174,7 +174,7 @@ class ListsPlusKtTest
     }
 
     @Test
-    fun testContainsWhere()
+    fun testContainsWhereWhenContains()
     {
         val result = list.containsWhere { it == element }
         assertTrue { result }
@@ -183,7 +183,21 @@ class ListsPlusKtTest
     @Test
     fun testContainsWhereWhenNotContains()
     {
-        val result = list.containsWhere { it == null }
+        val result = list.containsWhere { it.isEmptyOrNull }
+        assertFalse { result }
+    }
+
+    @Test
+    fun testDoesNotContainWhereWhenContains()
+    {
+        val result = list.doesNotContainWhere { it.isEmptyOrNull }
+        assertTrue { result }
+    }
+
+    @Test
+    fun testDoesNotContainWhereWhenDoesNotContain()
+    {
+        val result = list.doesNotContainWhere { it.length > 1 }
         assertFalse { result }
     }
 

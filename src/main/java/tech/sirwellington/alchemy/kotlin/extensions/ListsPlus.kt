@@ -152,6 +152,19 @@ inline fun <reified T> Collection<T>.containsWhere(predicate: (T) -> Boolean): B
 }
 
 /**
+ * A negated form of [containsWhere].
+ *
+ * @param predicate Ran on elements in the list to test whether the condition is met or not.
+ *
+ * @return `true` If this collection does not contain an element matching the [predicate], `false` if it doesn.
+ */
+inline fun <reified T> Collection<T>.doesNotContainWhere(predicate: (T) -> Boolean): Boolean
+{
+    return !this.any(predicate)
+}
+
+
+/**
  * @param elements The arguments to check for containment.
  *
  * @return `true` If this Collection contains any of the specified [elements], `false` otherwise.
