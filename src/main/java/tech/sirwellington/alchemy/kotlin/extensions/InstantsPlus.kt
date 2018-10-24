@@ -17,16 +17,20 @@ package tech.sirwellington.alchemy.kotlin.extensions
 
 import java.time.Instant
 import java.time.Instant.now
+import java.time.temporal.ChronoUnit.MILLIS
+import java.time.temporal.TemporalUnit
 import java.util.Date
 
-
-/**
- *
- * @author SirWellington
- */
 
 fun Instant.isInThePast(): Boolean = this.isBefore(now())
 
 fun Instant.isInTheFuture(): Boolean = this.isAfter(now())
 
 fun Instant.asDate(): Date = Date(this.toEpochMilli())
+
+
+/**
+ * Returns the amount of time that has elapsed since this [Instant]
+ * was created.
+ */
+fun Instant.timeAgo(unit: TemporalUnit = MILLIS): Long = this.until(now(), unit)

@@ -17,16 +17,22 @@ package tech.sirwellington.alchemy.kotlin.extensions
 
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
+import com.natpryce.hamkrest.greaterThanOrEqualTo
+import com.natpryce.hamkrest.lessThanOrEqualTo
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import tech.sirwellington.alchemy.generator.TimeGenerators
 import tech.sirwellington.alchemy.test.junit.runners.AlchemyTestRunner
 import tech.sirwellington.alchemy.test.junit.runners.GenerateDate
 import tech.sirwellington.alchemy.test.junit.runners.GenerateDate.Type.FUTURE
 import tech.sirwellington.alchemy.test.junit.runners.GenerateDate.Type.PAST
 import tech.sirwellington.alchemy.test.junit.runners.Repeat
 import java.time.Instant
+import java.time.Instant.now
+import java.time.temporal.ChronoUnit.*
 import java.util.Date
+import kotlin.math.absoluteValue
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -68,6 +74,18 @@ class InstantsPlusTests
     {
         val result = pastInstant.asDate()
         assertThat(result, equalTo(pastDate))
+    }
+
+    @Test
+    fun testUntilNowWhenPast()
+    {
+        val time = TimeGenerators.pastInstants().get()
+        val unit = listOf(MILLIS, SECONDS, MINUTES, HOURS, NANOS).anyElement!!
+        val expected = time.until(now(), unit).absoluteValue
+        val result = time.timeAgo(unit)
+        val ε = 5
+        assertThat(result, greaterThanOrEqualTo(expected - ε))
+        assertThat(result, lessThanOrEqualTo(expected + ε))
     }
 
 }
