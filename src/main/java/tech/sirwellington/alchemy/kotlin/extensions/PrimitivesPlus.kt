@@ -47,6 +47,10 @@ val Int.isOdd get() = !isEven
  */
 fun ClosedRange<Int>.random() = Int.random(this.start, this.endInclusive)
 
+
+//===========================================
+// BOOLEANS
+//===========================================
 /**
  * Returns a `!` version of `this`.
  *
@@ -57,6 +61,28 @@ fun ClosedRange<Int>.random() = Int.random(this.start, this.endInclusive)
  * ```
  */
 fun Boolean.inversed(): Boolean = !this
+
+object Booleans
+{
+    val any get() = (1..100).random().isEven
+}
+
+/**
+ * ```
+ * val message = "This title" eitherOr "That title"
+ * ```
+ *
+ * @return Either `this` value, or the [other] one.
+ *
+ */
+infix fun <T> T.eitherOr(other: T): T
+{
+    return if (Booleans.any) this else other
+}
+
+//===========================================
+// INTEGERS
+//===========================================
 
 /**
  * Repeats a block of code `this` times.
@@ -76,6 +102,7 @@ inline fun Int.repeat(block: () -> (Unit))
 {
     (0 until this).forEach { block() }
 }
+
 
 //===========================================
 // DOUBLES

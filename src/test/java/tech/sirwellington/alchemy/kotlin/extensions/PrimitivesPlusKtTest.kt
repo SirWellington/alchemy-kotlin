@@ -17,6 +17,7 @@ package tech.sirwellington.alchemy.kotlin.extensions
 
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
+import com.natpryce.hamkrest.or
 import junit.framework.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,6 +26,8 @@ import tech.sirwellington.alchemy.generator.BooleanGenerators.Companion.booleans
 import tech.sirwellington.alchemy.generator.NumberGenerators
 import tech.sirwellington.alchemy.generator.NumberGenerators.Companion.positiveIntegers
 import tech.sirwellington.alchemy.generator.NumberGenerators.Companion.smallPositiveIntegers
+import tech.sirwellington.alchemy.generator.StringGenerators
+import tech.sirwellington.alchemy.test.hamcrest.notNull
 import tech.sirwellington.alchemy.test.junit.runners.AlchemyTestRunner
 import tech.sirwellington.alchemy.test.junit.runners.DontRepeat
 import tech.sirwellington.alchemy.test.junit.runners.Repeat
@@ -101,7 +104,8 @@ class PrimitivesPlusKtTest
         var number = 0
         val times = one(smallPositiveIntegers())
 
-        times.repeat {
+        times.repeat()
+        {
             number += 1
         }
 
@@ -118,6 +122,47 @@ class PrimitivesPlusKtTest
         0.repeat { counter += 1 }
 
         assertThat(counter, equalTo(original))
+    }
+
+    @Repeat(25)
+    @Test
+    fun testBooleansAny()
+    {
+        val results = mutableSetOf<Boolean>()
+        20.repeat()
+        {
+            val result = Booleans.any
+            assertThat(result, notNull)
+            results.add(result)
+        }
+
+        assertThat(results.size, equalTo(2))
+    }
+
+    @Test
+    fun testEitherOr()
+    {
+        val first = StringGenerators.alphabeticStrings().get()
+        val second = StringGenerators.alphabeticStrings().get()
+        val result = first eitherOr second
+        assertThat(result, equalTo(first) or equalTo(second))
+    }
+
+    @DontRepeat
+    @Test
+    fun testEitherOrVariance()
+    {
+        val first = StringGenerators.alphabeticStrings().get()
+        val second = StringGenerators.alphabeticStrings().get()
+        val results = mutableSetOf<String>()
+
+        100.repeat()
+        {
+            val result = first eitherOr second
+            results.add(result)
+        }
+
+        assertThat(results.size, equalTo(2))
     }
 
 }
