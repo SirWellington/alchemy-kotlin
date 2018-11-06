@@ -84,3 +84,12 @@ fun <T> List<WeakReference<T>>.alreadyContainsWeakRef(weakReference: WeakReferen
 
     return false
 }
+
+/**
+ * An alias for [let] that lets you to run a block on an optional value, only if the value
+ * is itself not null
+ */
+fun <T> using(reference: T?, block: (ref: T) -> Unit)
+{
+    reference?.let(block)
+}

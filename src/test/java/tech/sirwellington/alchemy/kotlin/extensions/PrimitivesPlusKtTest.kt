@@ -27,6 +27,7 @@ import tech.sirwellington.alchemy.generator.NumberGenerators
 import tech.sirwellington.alchemy.generator.NumberGenerators.Companion.positiveIntegers
 import tech.sirwellington.alchemy.generator.NumberGenerators.Companion.smallPositiveIntegers
 import tech.sirwellington.alchemy.generator.StringGenerators
+import tech.sirwellington.alchemy.test.hamcrest.isNull
 import tech.sirwellington.alchemy.test.hamcrest.notNull
 import tech.sirwellington.alchemy.test.junit.runners.AlchemyTestRunner
 import tech.sirwellington.alchemy.test.junit.runners.DontRepeat
@@ -165,4 +166,22 @@ class PrimitivesPlusKtTest
         assertThat(results.size, equalTo(2))
     }
 
+    @Test
+    fun testUsing()
+    {
+        val number = Int.random(10, 1000).takeIf { Booleans.any }
+        var result = number
+
+        using(number)
+        {
+            result = it * 2
+        }
+
+        when (number)
+        {
+            null -> assertThat(result, isNull)
+            else -> assertThat(result, equalTo(number * 2))
+        }
+
+    }
 }
