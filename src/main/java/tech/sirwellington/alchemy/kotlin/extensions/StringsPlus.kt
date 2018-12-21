@@ -135,8 +135,11 @@ operator fun StringBuilder.plusAssign(string: String)
  *
  * @param length The desired length of the Hexadecimal.
  * @param secureRandom Whether the hexadecimal generated should be cryptographically secure or not.
+ * @param uppercase Whether the string should be uppercased or not.
  */
-fun String.Companion.hexadecimal(length: Int = Int.random(15, 100), secureRandom: Boolean = false): String
+fun String.Companion.hexadecimal(length: Int = Int.random(15, 100),
+                                 secureRandom: Boolean = false,
+                                 uppercase: Boolean = true): String
 {
     if (length <= 0) return ""
 
@@ -149,7 +152,9 @@ fun String.Companion.hexadecimal(length: Int = Int.random(15, 100), secureRandom
         buffer += hex
     }
 
-    return buffer.substring(0, length).toUpperCase()
+    val string = buffer.substring(0, length)
+
+    return if (uppercase) string.toUpperCase() else string.toLowerCase()
 }
 
 /**
