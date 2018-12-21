@@ -154,6 +154,8 @@ fun String.Companion.hexadecimal(length: Int = Int.random(15, 100), secureRandom
 
 /**
  * Creates a random [UUID] string using the
+ *
+ * @param includeHyphens Whether to include the hyphens that are part of the UUID standard, or omit them.
  */
 fun String.Companion.uuid(includeHyphens: Boolean = true): String
 {
