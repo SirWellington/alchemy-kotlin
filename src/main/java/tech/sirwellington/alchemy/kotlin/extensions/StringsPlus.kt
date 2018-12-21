@@ -16,6 +16,9 @@
 package tech.sirwellington.alchemy.kotlin.extensions
 
 import java.net.URL
+import java.security.SecureRandom
+import java.util.Random
+import java.util.UUID
 import javax.xml.bind.DatatypeConverter
 
 
@@ -125,4 +128,39 @@ val String.lastCharacter: String?
 operator fun StringBuilder.plusAssign(string: String)
 {
     append(string)
+}
+
+/**
+ * Creates a random Hexadecimal.
+ *
+ * @param length The desired length of the Hexadecimal.
+ * @param secureRandom Whether the hexadecimal generated should be cryptographically secure or not.
+ */
+fun String.Companion.hexadecimal(length: Int = Int.random(15, 100), secureRandom: Boolean = false): String
+{
+    if (length <= 0) return ""
+
+    val buffer = StringBuilder()
+    val random = if (secureRandom) SecureRandom() else Random()
+
+    while (buffer.length < length)
+    {
+        val hex = Integer.toHexString(random.nextInt())
+        buffer += hex
+    }
+
+    return buffer.substring(0, length).toUpperCase()
+}
+
+/**
+ * Creates a random [UUID] string using the
+ */
+fun String.Companion.uuid(includeHyphens: Boolean = true): String
+{
+    val uuid =  UUID.randomUUID().toString()
+
+    return if (includeHyphens) uuid else
+    {
+        uuid.replace("-", "")
+    }
 }

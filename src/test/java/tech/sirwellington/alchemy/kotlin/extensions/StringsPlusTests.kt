@@ -18,16 +18,19 @@ package tech.sirwellington.alchemy.kotlin.extensions
 import com.natpryce.hamkrest.and
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
+import com.natpryce.hamkrest.isEmptyString
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import tech.sirwellington.alchemy.generator.BinaryGenerators
+import tech.sirwellington.alchemy.test.hamcrest.hasSize
 import tech.sirwellington.alchemy.test.hamcrest.isNull
 import tech.sirwellington.alchemy.test.hamcrest.nonEmptyString
 import tech.sirwellington.alchemy.test.hamcrest.notNull
 import tech.sirwellington.alchemy.test.junit.runners.*
 import tech.sirwellington.alchemy.test.junit.runners.GenerateString.Type.ALPHABETIC
 import java.net.URL
+import java.util.UUID
 import javax.xml.bind.DatatypeConverter
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
@@ -147,6 +150,74 @@ class StringsPlusTests
         val result = builder.toString()
         assertThat(result, equalTo(string))
 
+    }
+
+    @Test
+    fun testHexadecimalStringWhenBadArg()
+    {
+        val length = Int.random(-100, 1)
+        val result = String.hexadecimal(length = length)
+        assertThat(result, notNull and isEmptyString)
+    }
+
+    @Test
+    fun testHexadecimalString()
+    {
+        val length = Int.random(1, 100)
+        val secure = Booleans.any
+        val result = String.hexadecimal(length = length, secureRandom = secure)
+        assertThat(result, nonEmptyString)
+    }
+
+    @DontRepeat
+    @Test
+    fun testHexadecimalStringUniqueness()
+    {
+        val results = mutableSetOf<String>()
+        val repetitions = Int.random(100, 5000)
+        val length = Int.random(100, 1000)
+
+        repetitions.repeat()
+        {
+            val result = String.hexadecimal(length)
+            results.add(result)
+        }
+
+        assertThat(results, hasSize(repetitions))
+    }
+
+    @Test
+    fun testUUID()
+    {
+        val result = String.uuid()
+        assertThat(result, nonEmptyString)
+
+        val uuid = UUID.fromString(result)
+        assertThat(uuid.toString(), equalTo(result))
+    }
+
+    @Test
+    fun testUUIDWithoutHyphens()
+    {
+        val result = String.uuid(includeHyphens = false)
+        assertThat(result, nonEmptyString)
+    }
+
+    @DontRepeat
+    @Test
+    fun testUUIDUniqueness()
+    {
+        val repetitions = Int.random(100, 1000)
+        val length = Int.random(50, 200)
+        val results = mutableSetOf<String>()
+
+        repetitions.repeat()
+        {
+            val result = String.uuid()
+            results.add(result)
+        }
+
+        assertThat(results, hasSize(repetitions))
     }
 
 }
