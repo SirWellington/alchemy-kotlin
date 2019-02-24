@@ -15,6 +15,7 @@
 
 package tech.sirwellington.alchemy.kotlin.extensions
 
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.Period
 import java.util.Date
@@ -59,3 +60,14 @@ fun java.sql.Date.toJavaUtilDate() = java.util.Date(this.time)
  * @return a [java.sql.Date] version of this [java.util.Date] object.
  */
 fun java.util.Date.toSqlDate() = java.sql.Date(this.time)
+
+/**
+ * Attempts to format this [java.util.Date] object into a string.
+ *
+ * @param format The format to use.
+ */
+fun java.util.Date.formatTo(format: String): String?
+{
+    val formatter = SimpleDateFormat(format)
+    return tryOrNull { formatter.format(this) }
+}

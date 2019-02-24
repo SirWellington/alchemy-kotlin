@@ -25,6 +25,7 @@ import tech.sirwellington.alchemy.test.junit.runners.GenerateDate
 import tech.sirwellington.alchemy.test.junit.runners.GenerateDate.Type.FUTURE
 import tech.sirwellington.alchemy.test.junit.runners.GenerateDate.Type.PAST
 import tech.sirwellington.alchemy.test.junit.runners.Repeat
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.Date
 import kotlin.math.absoluteValue
@@ -96,6 +97,16 @@ class DatesPlusTests
         val sqlDate = java.sql.Date(pastDate.time)
         val result = pastDate.toSqlDate()
         assertThat(result, equalTo(sqlDate))
+    }
+
+    @Test
+    fun testFormatDate()
+    {
+        val format = "MM/dd/yyyy" eitherOr "YYYY-MM-dd 'T' HH:mm:ss"
+        val date = futureDate eitherOr pastDate
+        val result = date.formatTo(format)
+        val expected = SimpleDateFormat(format).format(date)
+        assertThat(result, equalTo(expected))
     }
 
 }
