@@ -16,6 +16,7 @@
 package tech.sirwellington.alchemy.kotlin.extensions
 
 import java.net.URL
+import java.net.URLEncoder
 import java.security.SecureRandom
 import java.util.Random
 import java.util.UUID
@@ -114,6 +115,12 @@ get()
 {
     return tryOrNull { URL(this) }
 }
+
+/**
+ * URL-Encodes this string for use with URI paths.
+ */
+val String.urlEncoded: String
+    get() = URLEncoder.encode(this, Charsets.UTF_8.name())
 
 /**
  * @return The last String character in this String.

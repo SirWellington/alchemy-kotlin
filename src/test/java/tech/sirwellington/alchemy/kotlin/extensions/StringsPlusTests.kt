@@ -30,6 +30,7 @@ import tech.sirwellington.alchemy.test.hamcrest.notNull
 import tech.sirwellington.alchemy.test.junit.runners.*
 import tech.sirwellington.alchemy.test.junit.runners.GenerateString.Type.ALPHABETIC
 import java.net.URL
+import java.net.URLEncoder
 import java.util.UUID
 import javax.xml.bind.DatatypeConverter
 import kotlin.test.assertFalse
@@ -41,6 +42,7 @@ import kotlin.test.assertTrue
 @Repeat(150)
 class StringsPlusTests
 {
+
     @GenerateString
     private lateinit var string: String
 
@@ -123,6 +125,15 @@ class StringsPlusTests
     {
         val result = string.asURL
         assertNull(result)
+    }
+
+    @Test
+    fun testUrlEncoded()
+    {
+        val string = url.toString()
+        val expected = URLEncoder.encode(string, Charsets.UTF_8.name())
+        val result = string.urlEncoded
+        assertThat(result, equalTo(expected))
     }
 
     @Test
