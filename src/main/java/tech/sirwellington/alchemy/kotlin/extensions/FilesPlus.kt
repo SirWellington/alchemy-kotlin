@@ -36,10 +36,11 @@ object FilesPlus
 
 /**
  * Copies the content of the [istream] into this file.
+ * @return The number of total bytes copied.
  *
  * @author SirWellington
  */
-fun File.writeStream(istream: InputStream)
+fun File.writeStream(istream: InputStream): Long
 {
     this.outputStream().use()
     { ostream ->
@@ -47,7 +48,7 @@ fun File.writeStream(istream: InputStream)
         istream.use()
         { istream ->
 
-            istream.copyTo(ostream)
+            return istream.copyTo(ostream)
         }
     }
 }

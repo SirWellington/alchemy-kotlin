@@ -16,6 +16,7 @@
 package tech.sirwellington.alchemy.kotlin.extensions
 
 import com.natpryce.hamkrest.assertion.assertThat
+import com.natpryce.hamkrest.equalTo
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
@@ -64,7 +65,8 @@ class FilesPlusTest
         val binary = BinaryGenerators.binary(1000).get()
         val stream = binary.inputStream()
         file = FilesPlus.makeTempFile()
-        file.writeStream(stream)
+        val bytes = file.writeStream(stream)
+        assertThat(bytes, equalTo(binary.size.toLong()))
 
         val result = file.readBytes()
         Assert.assertArrayEquals(result, binary)
