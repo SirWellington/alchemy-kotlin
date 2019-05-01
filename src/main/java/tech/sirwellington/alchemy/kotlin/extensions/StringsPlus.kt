@@ -18,9 +18,9 @@ package tech.sirwellington.alchemy.kotlin.extensions
 import java.net.URL
 import java.net.URLEncoder
 import java.security.SecureRandom
+import java.util.Base64
 import java.util.Random
 import java.util.UUID
-import javax.xml.bind.DatatypeConverter
 
 
 /**
@@ -91,7 +91,8 @@ val String.firstLetter: String?
 val String.base64Decoded: ByteArray?
 get()
 {
-    return tryOrNull { DatatypeConverter.parseBase64Binary(this) }
+    val binary = this.toByteArray(Charsets.UTF_8)
+    return Base64.getDecoder().decode(binary)
 }
 
 /**
@@ -101,7 +102,8 @@ get()
 val ByteArray.base64Encoded: String?
 get()
 {
-    return tryOrNull { DatatypeConverter.printBase64Binary(this) }
+    val decoded = Base64.getEncoder().encode(this)
+    return decoded.toString(Charsets.UTF_8)
 }
 
 /**
