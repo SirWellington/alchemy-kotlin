@@ -83,6 +83,17 @@ class StringsPlusTests
     }
 
     @Test
+    fun testNotNullOrBlank()
+    {
+        val emptyString: String? = null
+
+        assertFalse { "".notNullOrBlank }
+        assertFalse { emptyString.notNullOrBlank }
+        assertTrue { string.notNullOrBlank }
+        assertTrue { alphabetic.notNullOrBlank }
+    }
+
+    @Test
     fun testGetFirstLetter()
     {
         val expected = string[0].toString()

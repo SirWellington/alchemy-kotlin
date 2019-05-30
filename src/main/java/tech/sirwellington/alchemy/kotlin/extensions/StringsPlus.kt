@@ -61,11 +61,16 @@ val String?.isEmptyOrNull: Boolean
     }
 
 /**
- * Returns true, unless the String is empty or null.
+ * Returns `true`, unless the String is empty or null.
  * This is a useful check to see whether a string is good to
  * use or not.
  */
 val String?.notEmptyOrNull: Boolean get() = !this.isEmptyOrNull
+
+/**
+ * Returns `true` if the string is either null or blank. Returns `false` otherwise.
+ */
+val String?.notNullOrBlank: Boolean get() = !this.isNullOrBlank()
 
 /**
  * Gets the first letter of the given string,
