@@ -23,6 +23,8 @@ import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import tech.sirwellington.alchemy.generator.BinaryGenerators
+import tech.sirwellington.alchemy.generator.StringGenerators
+import tech.sirwellington.alchemy.generator.StringGenerators.Companion
 import tech.sirwellington.alchemy.test.hamcrest.hasSize
 import tech.sirwellington.alchemy.test.hamcrest.isNull
 import tech.sirwellington.alchemy.test.hamcrest.nonEmptyString
@@ -111,6 +113,14 @@ class StringsPlusTests
         val result = base64.base64Decoded
         assertNotNull(result)
         Assert.assertArrayEquals(result, binary)
+    }
+
+    @Test
+    fun testBase64DecodeWhenNotEncodedProperly()
+    {
+        val nonBase64 = StringGenerators.alphabeticStrings().get()
+        val result = nonBase64.base64Decoded
+        assertThat(result, isNull)
     }
 
     @Test

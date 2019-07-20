@@ -97,7 +97,7 @@ val String.base64Decoded: ByteArray?
 get()
 {
     val binary = this.toByteArray(Charsets.UTF_8)
-    return Base64.getDecoder().decode(binary)
+    return tryOrNull { Base64.getDecoder().decode(binary) }
 }
 
 /**
