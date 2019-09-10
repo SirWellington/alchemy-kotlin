@@ -24,7 +24,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import tech.sirwellington.alchemy.generator.BinaryGenerators
 import tech.sirwellington.alchemy.generator.StringGenerators
-import tech.sirwellington.alchemy.generator.StringGenerators.Companion
 import tech.sirwellington.alchemy.test.hamcrest.hasSize
 import tech.sirwellington.alchemy.test.hamcrest.isNull
 import tech.sirwellington.alchemy.test.hamcrest.nonEmptyString
@@ -57,6 +56,18 @@ class StringsPlusTests
     @Test
     fun testTitleCased()
     {
+    }
+
+    @Test
+    fun testDoesNotContains()
+    {
+        val first = StringGenerators.uuids.get()
+        assertFalse { first.doesNotContain(first) }
+        assertTrue { first.doesNotContain(first.toUpperCase(), ignoringCase = false) }
+        assertFalse { first.doesNotContain(first.toUpperCase(), ignoringCase = true) }
+
+        assertTrue { "alchemy".doesNotContain("Alch", ignoringCase = false) }
+        assertFalse { "alchemy".doesNotContain("Alch", ignoringCase = true) }
     }
 
     @Test
@@ -118,7 +129,8 @@ class StringsPlusTests
     @Test
     fun testBase64DecodeWhenNotEncodedProperly()
     {
-        val nonBase64 = StringGenerators.alphabeticStrings().get()
+        val invalidChars = "🧨🎱💥🔥"
+        val nonBase64 = StringGenerators.alphabeticStrings().get() + invalidChars.toList().anyElement
         val result = nonBase64.base64Decoded
         assertThat(result, isNull)
     }
