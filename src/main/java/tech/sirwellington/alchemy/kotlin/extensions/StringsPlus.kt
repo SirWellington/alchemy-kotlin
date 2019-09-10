@@ -18,7 +18,6 @@ package tech.sirwellington.alchemy.kotlin.extensions
 import java.net.URL
 import java.net.URLEncoder
 import java.security.SecureRandom
-import java.util.Base64
 import java.util.Random
 import java.util.UUID
 
@@ -115,8 +114,7 @@ get()
 val ByteArray.base64Encoded: String?
 get()
 {
-    val decoded = Base64.getEncoder().encode(this)
-    return decoded.toString(Charsets.UTF_8)
+    return Base64Decoder._printBase64Binary(this)
 }
 
 /**
@@ -206,8 +204,68 @@ fun String.Companion.uuid(includeHyphens: Boolean = true): String
  */
 private object Base64Decoder
 {
+
+    private val encodeMap = initEncodeMap()
     private val decodeMap = initDecodeMap()
     private const val PADDING: Byte = 127
+
+    fun _printBase64Binary(input: ByteArray, offset: Int = 0, len: Int = input.size): String
+    {
+        val buf = CharArray((len + 2) / 3 * 4)
+        val ptr = _printBase64Binary(input, offset, len, buf, 0)
+        assert(ptr == buf.size)
+        return String(buf)
+    }
+    /**
+     * Encodes a byte array into a char array by doing base64 encoding.
+     *
+     * The caller must supply a big enough buffer.
+     *
+     * @return
+     * the value of `ptr+((len+2)/3)*4`, which is the new offset
+     * in the output buffer where the further bytes should be placed.
+     */
+    private fun _printBase64Binary(input: ByteArray, offset: Int = 0, len: Int = input.size, buf: CharArray, ptr: Int): Int
+    {
+        var ptr = ptr
+        // encode elements until only 1 or 2 elements are left to encode
+        var remaining = len
+        var i: Int
+        i = offset
+        while (remaining >= 3)
+        {
+            buf[ptr++] = encode(input[i].toInt() shr 2)
+            buf[ptr++] = encode(
+                    input[i].toInt() and 0x3 shl 4 or (input[i + 1].toInt() shr 4 and 0xF))
+            buf[ptr++] = encode(
+                    input[i + 1].toInt() and 0xF shl 2 or (input[i + 2].toInt() shr 6 and 0x3))
+            buf[ptr++] = encode(input[i + 2].toInt() and 0x3F)
+            remaining -= 3
+            i += 3
+        }
+        // encode when exactly 1 element (left) to encode
+        if (remaining == 1)
+        {
+            buf[ptr++] = encode(input[i].toInt() shr 2)
+            buf[ptr++] = encode(input[i].toInt() and 0x3 shl 4)
+            buf[ptr++] = '='
+            buf[ptr++] = '='
+        }
+        // encode when exactly 2 elements (left) to encode
+        if (remaining == 2)
+        {
+            buf[ptr++] = encode(input[i].toInt() shr 2)
+            buf[ptr++] = encode(input[i].toInt() and 0x3 shl 4 or (input[i + 1].toInt() shr 4 and 0xF))
+            buf[ptr++] = encode(input[i + 1].toInt() and 0xF shl 2)
+            buf[ptr++] = '='
+        }
+        return ptr
+    }
+
+    private fun encode(i: Int): Char
+    {
+        return encodeMap[i and 0x3F]
+    }
 
     fun _parseBase64Binary(text: String): ByteArray
     {
@@ -318,6 +376,35 @@ private object Base64Decoder
 
         // so far this base64 looks like it's unindented tightly packed base64.
         // take a chance and create an array with the expected size
+    }
+    private fun initEncodeMap(): CharArray
+    {
+        val map = CharArray(64)
+
+        var i = 0
+        while (i < 26)
+        {
+            map[i] = ('A'.toInt() + i).toChar()
+            i++
+        }
+
+        i = 26
+        while (i < 52)
+        {
+            map[i] = ('a'.toInt() + (i - 26)).toChar()
+            i++
+        }
+
+        i = 52
+        while (i < 62)
+        {
+            map[i] = ('0'.toInt() + (i - 52)).toChar()
+            i++
+        }
+        map[62] = '+'
+        map[63] = '/'
+
+        return map
     }
 
     private fun initDecodeMap(): ByteArray
